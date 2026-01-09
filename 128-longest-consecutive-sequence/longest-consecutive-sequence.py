@@ -6,7 +6,7 @@ class Solution:
         maxSeq = 0
 
         for num in nums:
-            if num-1 in setNums:
+            if num-1 in setNums or num not in setNums:
                 continue
             val = num
             seq = 0
