@@ -19,6 +19,8 @@ class Solution:
 
         res = []
         for num in countMap:
+            if len(res) == 2:
+                break
             if numCount[num] > len(nums)/3:
                 res.append(num)
         
