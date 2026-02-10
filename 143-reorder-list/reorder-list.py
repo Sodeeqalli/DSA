@@ -5,62 +5,43 @@
 #         self.next = next
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
-        fast,slow = head.next, head
-
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        slow, fast = head, head.next
+        
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
         
-        secondhead = slow.next
+        
+        prev, curr = None, slow.next
         slow.next = None
-        prev,curr = None, secondhead
+
         while curr:
             nxt = curr.next
             curr.next = prev
             prev = curr
             curr = nxt
-        tail = prev
         
-        #1->2->3
-        #5->4
-        while tail:
-            tmp1,tmp2 = head.next,tail.next
-            head.next = tail
-            tail.next = tmp1
-            head,tail = tmp1,tmp2
+        curr1, curr2 = head,prev
 
-    
+        #1 -> 2 -> 3
+        #5 -> 4
 
+        while curr1 and curr2:
+            nxt1 = curr1.next
+            nxt2 = curr2.next
+            curr1.next = curr2
+            curr2.next = nxt1
+            curr1 = nxt1
+            curr2 = nxt2
 
+        return head
             
             
 
-        # 1 -> 2 -> 3 <- 4
-
-        # 1 -> 4 -> 2 ->3
-
-        #1 ->2 -> 3 ->4 -> 5
-        
-        #store 2
-        # 1.next = 4
-        #store 3
-        # 4.next = 2
-        #store 3
-        #2.next = 3
-        
-        #store 2
-        #1.next = 5
-        #store 4
-        #5.next = 2
-        #store 3
-        #2.next = 4
-        
-
+            
             
             
 
-
-        
-
-
-        
