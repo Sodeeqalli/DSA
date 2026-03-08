@@ -1,77 +1,59 @@
-#linkedList
 class ListNode:
-    def __init__(self, value = -1):
+    def __init__(self,value = -1,prev = -1,nxt = None):
         self.value = value
-        self.next = None
+        self.prev = prev
+        self.next = nxt
 
 class MyCircularQueue:
 
     def __init__(self, k: int):
-        self.q = ListNode(-2)
-        curr = self.q
-        for i in range(k):
-            curr.next = ListNode()
-            curr = curr.next
-
-        #-2 -> -1 -> -1 -> -1
-
+        self.space = self.capacity = k
+        self.left = ListNode()
+        self.right = ListNode()
+        self.left.next = self.right
+        self.right.prev = self.left
         
 
     def enQueue(self, value: int) -> bool:
-        #-2 -> -1 -> -1 -> -1
-        curr = self.q
-        while curr.next and curr.next.value != -1:
-            curr = curr.next
-        if curr.next:
-            curr.next.value = value
+        if not self.isFull():
+            node = ListNode(value)
+            node.prev =  self.right.prev
+            node.prev.next = node
+            node.next = self.right
+            self.right.prev = node
+            self.space -= 1
             return True
         return False
-
-
-        
 
     def deQueue(self) -> bool:
-        #-2 -> 1 ->2->3
-        curr = self.q
-        if curr.next.value != -1:
-            while curr.next:
-                curr = curr.next
-            curr.next = ListNode()
-            curr = self.q
-            curr.next = curr.next.next
+        if not self.isEmpty():
+            self.left.next = self.left.next.next
+            self.left.next.prev = self.left
+            self.space += 1
             return True
         return False
-
         
 
     def Front(self) -> int:
-        curr = self.q
-        return curr.next.value
-        
+        if not self.isEmpty():
+            return self.left.next.value
+        return -1
         
 
     def Rear(self) -> int:
-        #-2 -> 1 ->2->3
-        curr = self.q
-        while curr.next and curr.next.value != -1:
-            curr = curr.next
-        return curr.value if curr != self.q else -1
+        if not self.isEmpty():
+            return self.right.prev.value
+        return -1
         
 
     def isEmpty(self) -> bool:
-        curr = self.q
-        return True if curr.next.value == -1 else False
+        return self.space == self.capacity
         
 
     def isFull(self) -> bool:
-        #-2 -> 1 ->2->3
-        curr = self.q
-        while curr.next and curr.next.value != -1:
-            curr = curr.next
-        return False if curr.next else True
-
+        return self.space == 0
         
-
+#left -> 2 3 4<- right
 
 # Your MyCircularQueue object will be instantiated and called as such:
 # obj = MyCircularQueue(k)
