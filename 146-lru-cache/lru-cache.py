@@ -1,53 +1,56 @@
 class ListNode:
-    def __init__(self,key = -1,value = -1,prev = None,nxt = None):
+    def __init__(self, key = -1, value = -1, prev= None, nxt= None):
         self.key = key
         self.value = value
         self.prev = prev
-        self.nxt = nxt
+        self.next = nxt
 
 class LRUCache:
-
-     
-
-
     def __init__(self, capacity: int):
-        self.space = capacity
+        self.space = self.capacity = capacity
+        self.nodeMap = {}
         self.left = ListNode()
-        self.right = ListNode(prev = self.left)
-        self.left.nxt = self.right
-        self.hashMap = {}
-        # l-> <-r
-        #2
+        self.right = ListNode()
+        self.left.next = self.right
+        self.right.prev = self.left
+    
+    def remove(self,node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        self.space += 1
+    
+    def insert(self,node):
+        self.right.prev.next = node
+        node.prev = self.right.prev
+        self.right.prev = node
+        node.next = self.right
+        self.space -= 1
 
     def get(self, key: int) -> int:
-        if key in self.hashMap:
-            v = self.hashMap[key].value
-            self.put(key,v)
-            return v
-        return -1
-        
-
-        
+        if key in self.nodeMap:
+            node = self.nodeMap[key]
+            self.remove(node)
+            self.insert(node)
+            return node.value
+        return -1      
 
     def put(self, key: int, value: int) -> None:
-        if key in self.hashMap:
-            curr = self.hashMap[key]
-            curr.prev.nxt = curr.nxt
-            curr.nxt.prev = curr.prev
-            self.space += 1
-        new = ListNode(key,value,self.right.prev,self.right)
-        self.right.prev.nxt = new
-        self.right.prev = new
-        self.space -= 1
-        self.hashMap[key] = new
-        if self.space == -1:
-            del self.hashMap[self.left.nxt.key]
-            self.left.nxt = self.left.nxt.nxt
-            self.left.nxt.prev = self.left
-            self.space+=1
-        
-        # l-> <-1-> <-3-> <-<-r
-        # -1
+        if key in self.nodeMap:
+            node = self.nodeMap[key]
+            node.value = value
+            self.remove(node)
+            self.insert(node)
+            return
+        new = ListNode(key,value)
+        self.nodeMap[key] = new
+        self.insert(new)
+        if self.space < 0:
+            node = self.left.next
+            del self.nodeMap[node.key]
+            self.remove(node)
+        return
+            
+
         
         
 
