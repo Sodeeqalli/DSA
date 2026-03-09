@@ -10,37 +10,31 @@ class Solution:
         before = dummy
         curr = start = head
         i = 1
+
         while curr:
             if i == 1:
                 start = curr
             if i == k:
                 after = curr.next
                 curr.next = None
-                self.reverse(before,start,after)
+                self.reverse(before, start, after)
                 before = start
-                curr = after
                 i = 1
+                curr = after
                 continue
             i+=1
             curr = curr.next
         
         return dummy.next
 
-    def reverse(self,before,start,after):
-        prev, curr = None, start
+    def reverse(self, before, start, after):
+        prev, curr = after, start
+
         while curr:
             nxt = curr.next
             curr.next = prev
             prev = curr
             curr = nxt
-
-        start.next = after
-        before.next = prev
-
         
-
-
-
-
-
+        before.next = prev
         
