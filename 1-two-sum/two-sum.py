@@ -7,5 +7,3 @@ class Solution:
                 return [index, seen[complement]]
             seen[num] = index
         
-
-        
