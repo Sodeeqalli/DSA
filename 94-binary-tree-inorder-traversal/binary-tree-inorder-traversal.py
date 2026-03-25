@@ -4,17 +4,26 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+#       1
+#   2       3
+#4     5  6     7
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        output = []
+        stack, result = [],[]
+        curr = root
 
-        def traverse(node):
-            if not node:
-                return
-            traverse(node.left)
-            output.append(node.val)
-            traverse(node.right)
+        while curr or stack:
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+            node = stack.pop()
+            result.append(node.val)
+            curr = node.right
         
-        traverse(root)
-        return output
+        return result
+
+            
+            
+        
         
