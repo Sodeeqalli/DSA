@@ -1,33 +1,38 @@
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        def merge(arr,l,m,r):
-            left,right = arr[l:m+1], arr[m+1:r+1]
-            i,j,k = l, 0, 0
-
-            while j < len(left) and k < len(right):
-                if left[j] < right[k]:
-                    arr[i] = left[j]
-                    j+=1
+        def merge(L,M,R,array):
+            left,right = array[L:M+1], array[M+1:R+1]
+            i,j,k = 0,0,L
+            while i < len(left) and j < len(right):
+                if left[i] < right[j]:
+                    array[k] = left[i]
+                    i+=1
                 else:
-                    arr[i] = right[k]
-                    k+=1
-                i+=1
+                    array[k] = right[j]
+                    j+=1
+                k+=1
             
-            while j < len(left):
-                arr[i] = left[j]
-                i, j = i+1,j+1
+            while i < len(left):
+                array[k] = left[i]
+                i,k = i+1, k+1
             
-            while k < len(right):
-                arr[i] = right[k]
-                i, k = i+1,k+1
-            
-        def mergeSort(arr, l, r):
+            while j < len(right):
+                array[k] = right[j]
+                j,k = j+1, k+1
+                
+
+
+
+        def mergeSort(l,r,arr):
             if l == r:
                 return arr
             m = l + ((r-l)//2)
-            mergeSort(arr,l,m)
-            mergeSort(arr,m+1,r)
-            merge(arr,l,m,r)
+            mergeSort(l,m,arr)
+            mergeSort(m+1,r,arr)
+            merge(l,m,r,arr)
             return arr
+
+        return mergeSort(0,len(nums)-1, nums)
+
+
         
-        return mergeSort(nums, 0, len(nums)-1)
