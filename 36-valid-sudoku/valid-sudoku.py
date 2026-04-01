@@ -1,16 +1,21 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
-        colMap = defaultdict(set)
-        rowMap = defaultdict(set)
-        gridMap = defaultdict(set)
+        seenRow = defaultdict(list)
+        seenCol = defaultdict(list)
+        seenGrid = defaultdict(list)
         for row in range(9):
             for col in range(9):
-                if board[row][col] != '.':
-                    if board[row][col] in rowMap[row] or board[row][col] in colMap[col] or board[row][col] in gridMap[(row//3,col//3)]:
+                val = board[row][col]
+                if val != ".":
+                    if val in seenRow[row] or val in seenCol[col] or val in seenGrid[(row//3,col//3)]:
                         return False
-                    rowMap[row].add(board[row][col])
-                    colMap[col].add(board[row][col])
-                    gridMap[(row//3,col//3)].add(board[row][col])
+                    seenRow[row].append(val)
+                    seenCol[col].append(val)
+                    seenGrid[(row//3,col//3)].append(val)
         
         return True
+                    
+                
+
+        
         
