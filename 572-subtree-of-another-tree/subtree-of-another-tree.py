@@ -15,16 +15,24 @@ class Solution:
                 return False
             
             return sameTree(root1.left, root2.left) and sameTree(root1.right,root2.right)
-        stack=[root]
+        if not subRoot: return True
+        if not root: return False
         
-        while stack:
-            node = stack.pop()
-            if node:
-                if node.val == subRoot.val:
-                    if sameTree(node,subRoot):
-                        return True
-                stack.append(node.right)
-                stack.append(node.left)
+        
+        if sameTree(root,subRoot):
+            return True
+        
+        return (self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot))
+        # stack=[root]
+        
+        # while stack:
+        #     node = stack.pop()
+        #     if node:
+        #         if node.val == subRoot.val:
+        #             if sameTree(node,subRoot):
+        #                 return True
+        #         stack.append(node.right)
+        #         stack.append(node.left)
         
         return False
        
