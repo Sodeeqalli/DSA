@@ -1,36 +1,35 @@
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         nums.sort()
-        quads = []
-        i = 0
+        res,quad = [], []
 
-        while i < len(nums)-3:
-            if i > 0 and nums[i] == nums[i-1]:
-                i+=1
-                continue
-            j = i+1
-            while j < len(nums)-2:
-                if j > i+1 and nums[j] == nums[j-1]:
-                    j+=1
-                    continue
-                k,l = j+1, len(nums)-1
-
-                while k<l:
-                    sumVal = nums[i] + nums[j] + nums[k] + nums[l]
-                    if sumVal > target:
-                        l-=1
-                    elif sumVal < target:
-                        k+=1
-                    else:
-                        quads.append([nums[i], nums[j], nums[k], nums[l]])
-                        k+=1
-                        while k < len(nums) and nums[k] == nums[k-1]:
-                            k+=1
-                
-                j+=1
-            i+=1
+        def kSum(k,start,target):
+            if k != 2:
+                for i in range(start,len(nums)-k+1):
+                    if i > start and nums[i] == nums[i-1]:
+                        continue
+                    quad.append(nums[i])
+                    kSum(k-1, i+1, target-nums[i])
+                    quad.pop()
+                return 
+            l,r = start, len(nums)-1
+            while l < r:
+                sumVal = nums[l] + nums[r]
+                if sumVal > target:
+                    r-=1
+                elif sumVal < target:
+                    l+=1
+                else:
+                    res.append(quad + [nums[l], nums[r]])
+                    l+=1
+                    while l < len(nums) and nums[l] == nums[l-1]:
+                        l+=1
         
-        return quads
+        kSum(4,0,target)
+        return res
+        
+                
+
 
 
         
