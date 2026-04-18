@@ -8,19 +8,7 @@ class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
-        #DFS 
-        stack, depth = [[root,1]], 0
-        maxDepth = 0
-
-        while stack:
-            node, d = stack.pop()
-            maxDepth = max(maxDepth, d)
-            if node.left:
-                stack.append([node.left, d+1])
-            if node.right:
-                stack.append([node.right, d+1])
         
-        return maxDepth
-
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 
         
