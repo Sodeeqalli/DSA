@@ -4,22 +4,24 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        res = 0
-        def length(node):
-            nonlocal res
+        maxDiameter = 0
+
+        def maxDepth(node):
             if not node:
                 return 0
-            left = length(node.left)
-            right = length(node.right)
-            
-            res = max(res,(left+right))
+    
+            left, right = maxDepth(node.left), maxDepth(node.right)
+            nonlocal maxDiameter
+            maxDiameter = max(maxDiameter, left+right)
             return 1 + max(left,right)
-        
-        length(root)
-        return res
 
-        
+        maxDepth(root)
+
+        return maxDiameter
+
+
+            
+
         
