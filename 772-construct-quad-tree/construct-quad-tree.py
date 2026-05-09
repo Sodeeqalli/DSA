@@ -12,26 +12,25 @@ class Node:
 
 class Solution:
     def construct(self, grid: List[List[int]]) -> 'Node':
-        
-        def quad(n, r, c):
-            allSame = True
-
+        def quadTree(n,r,c):
+            sameVal = True
             for i in range(n):
                 for j in range(n):
                     if grid[r][c] != grid[r+i][c+j]:
-                        allSame = False
+                        sameVal = False
                         break
-            if allSame:
-                return Node(grid[r][c], allSame)
-            
-            n = n//2
-            topLeft = quad(n,r,c)
-            topRight =quad(n,r, c+n)
-            bottomLeft = quad(n, r+n, c)
-            bottomRight = quad(n, r+n, c+n)
+            if sameVal:
+                return Node(grid[r][c], True)
+            else:
+                n = n//2
+                topLeft = quadTree(n, r, c)
+                topRight = quadTree(n, r, c+n)
+                bottomLeft = quadTree(n, r+n, c)
+                bottomRight = quadTree(n, r+n, c+n)
+            return Node(0, False, topLeft, topRight, bottomLeft, bottomRight)
+        return quadTree(len(grid), 0, 0)
 
-            return Node(0, allSame, topLeft, topRight, bottomLeft, bottomRight)
 
-        return quad(len(grid), 0, 0)
+
 
         
