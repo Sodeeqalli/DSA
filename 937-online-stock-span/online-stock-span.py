@@ -1,21 +1,19 @@
 class StockSpanner:
 
     def __init__(self):
-        self.stack = []
-        self.days = []
+        self.stack = [] #[price, days]
         
 
     def next(self, price: int) -> int:
-        dayCount = 1
+        days = 1
 
-        while self.stack and self.stack[-1] <= price:
-            self.stack.pop()
-            dayCount += self.days.pop()
-        
-        self.stack.append(price)
-        self.days.append(dayCount)
+        while self.stack and self.stack[-1][0] <= price:
+            _ , d = self.stack.pop()
+            days += d
 
-        return dayCount
+        self.stack.append([price, days])
+        return days
+            
 
         
 
