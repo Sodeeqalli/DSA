@@ -4,28 +4,30 @@ class Solution:
         #use a stack and go for every height 
         #if height is greater than or equal to the max, we add max - every number in the stack
         #when we get to the end and stack still remains, we remove the max, take new max and start from the right to calculate what each is worth
-        if len(height) < 2:
-            return 0
-        stack = [] #[height]
-        maxh = 0
+
+        maxLeft, maxRight = height[0] , height[-1]
+        l,r = 0, len(height)-1
         rainWater = 0
 
-        for h in height:
-            while stack and h >= maxh:
-                removed = stack.pop()
-                rainWater += maxh - removed
-            stack.append(h)
-            maxh = max(h, maxh)
-        
-        if stack:
-            maxRight = 0
-            for i in range(len(stack)-1 , 0 , -1):
-                if stack[i] >= maxRight:
-                    maxRight = stack[i]
+        while l <= r:
+            if maxRight < maxLeft:
+                if maxRight > height[r]:
+                    rainWater += maxRight - height[r]
                 else:
-                    rainWater += maxRight - stack[i]
+                    maxRight = height[r]
+                r-=1
+            else:
+                if maxLeft > height[l]:
+                    rainWater += maxLeft - height[l]
+                else:
+                    maxLeft = height[l]
+                l+=1
             
         return rainWater
+                
+
+
+        
 
 
 
