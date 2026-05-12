@@ -6,27 +6,17 @@
 #         self.right = right
 class Solution:
     def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
-        def remove(root, target):
-            if not root:
-                return [None,False]
-
-            if not root.left and not root.right and target == root.val:
-                return [None,True]
-            
-            dfsLeft = remove(root.left, target)
-            dfsRight = remove(root.right, target)
+        if not root:
+            return None
         
-            root.left = dfsLeft[0]
-            root.right = dfsRight[0]
+        root.left = self.removeLeafNodes(root.left, target)
+        root.right = self.removeLeafNodes(root.right, target)
 
-            return [root, dfsLeft[1] or dfsRight[1]]
+        if not root.left and not root.right and root.val == target:
+            return None
         
-        another = True
-        resRoot = root
-        while resRoot and another:
-            resRoot, another = remove(root, target)
-
-        return resRoot
+        return root
+        
 
 
         
