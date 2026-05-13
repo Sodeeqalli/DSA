@@ -6,39 +6,15 @@
 #         self.right = right
 class Solution:
     def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
-        stack = [root]
-        seenSet = set()
-        parentMap = {root:[None,None]}
+        if not root:
+            return None
         
-        while stack:
-            node = stack.pop()
-            if node:
-                if node in seenSet:
-                    if not node.left and not node.right and node.val == target:
-                        if parentMap[node][0] == None:
-                            return None
-                        else:
-                            if parentMap[node][1] == "l":
-                                parentMap[node][0].left = None
-                            else:
-                                parentMap[node][0].right = None
-                else:
-                    stack.append(node)
-                    seenSet.add(node)
-                    parentMap[node.left] = [node, "l"]
-                    parentMap[node.right] = [node, "r"]
-                    stack.append(node.left)
-                    stack.append(node.right)
+        root.left = self.removeLeafNodes(root.left, target)
+        root.right = self.removeLeafNodes(root.right, target)
 
+        if not root.left and not root.right and root.val == target:
+            return None
+        
         return root
-
-
-
-
-                        
-
-        
-        
-
 
         
