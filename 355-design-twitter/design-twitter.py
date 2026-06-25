@@ -14,21 +14,33 @@ class Twitter:
         
 
     def getNewsFeed(self, userId: int) -> List[int]:
-        maxHeap = []
-        newsFeed = []
+        minHeap = []
+        res = []
 
-        users = set(self.followList[userId])
-        users.add(userId)
+        self.follow(userId,userId)
 
-        for user in users:
-            tweets = self.userTweets[user]
-            for time, tweetId in tweets:
-                heapq.heappush(maxHeap, (time, tweetId))
+        for user in self.followList[userId]:
+            index = len(self.userTweets[user])-1
+            if index >= 0:
+                time, tweetId = self.userTweets[user][index]
+                minHeap.append([time, tweetId, user, index-1])
+        
+        heapq.heapify(minHeap)
 
-        while maxHeap and len(newsFeed) < 10:
-            newsFeed.append(heapq.heappop(maxHeap)[1])
+        while minHeap and len(res) < 10:
+            time, tweetId, user, index = heapq.heappop(minHeap)
+            res.append(tweetId)
+            if index >= 0:
+                time, tweetId = self.userTweets[user][index]
+                heapq.heappush(minHeap, [time, tweetId, user, index-1])
+        
+        return res
 
-        return newsFeed
+
+                
+
+
+        
 
         
         
