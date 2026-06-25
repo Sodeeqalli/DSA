@@ -2,38 +2,29 @@ import heapq
 class Solution:
     def getOrder(self, tasks: List[List[int]]) -> List[int]:
         taskHeap = []
-        for index, task in enumerate(tasks):
-            taskHeap.append([task[0], task[1], index])
+        for index, (enqueueT, processT) in enumerate(tasks):
+            taskHeap.append([enqueueT, processT, index])
         heapq.heapify(taskHeap)
         availHeap = []
-        res = []
         time = 0
-    
+        res = []
+
         while taskHeap or availHeap:
-            if not availHeap and time <= taskHeap[0][0]:
-                time = taskHeap[0][0]
-            
-            while taskHeap and taskHeap[0][0] <= time:    
+            while taskHeap and time >= taskHeap[0][0]:
                 _,processT, index = heapq.heappop(taskHeap)
-                heapq.heappush(availHeap, [processT, index]) #1,2,4
-                
+                heapq.heappush(availHeap, [processT, index])
+            
             if availHeap:
-                processT, index = heapq.heappop(availHeap) #
-                time+= processT #0
-                res.append(index) #1
-            
-            
+                processT, index = heapq.heappop(availHeap)
+                time += processT
+                res.append(index)
+            else:
+                time = taskHeap[0][0]
+        
         return res
 
-                
-            
-                
 
-            
-
-
-                
-
-
-
+        
+        
+        
         
