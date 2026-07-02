@@ -26,6 +26,7 @@ class WordDictionary:
                 for child in curr.children:
                     if self.searchBranch(curr.children[child], word[i+1:]):
                         return True
+                return False
             if word[i] not in curr.children:
                 return False
             curr = curr.children[word[i]]
