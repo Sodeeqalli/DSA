@@ -1,33 +1,30 @@
 class Solution:
     def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
-        #this looks like a dependency graph to me
-        n = len(rooms)
-        visited = [False]*n
-        keys = []
         visitCount = 0
-        for key in rooms[0]:
-            keys.append(key)
-        visited[0] = True
-        visitCount = 1
-        print(keys)
+        visited = [False] * len(rooms)
 
-        while keys:
-            curKey = keys.pop()
-            if visited[curKey] == True:
-                continue
-            print(curKey)
-            visited[curKey] = True
+        def dfs(room):
+            nonlocal visitCount
+            if visited[room] == True:
+                return
+            visited[room] = True
             visitCount += 1
-            print(visited, visitCount)
-            if visitCount == n:
-                return True
+
+            for nextRoom in rooms[room]:
+                if visited[nextRoom] == False:
+                    dfs(nextRoom)
+            return
             
-            for k in rooms[curKey]:
-                if visited[k] == True:
-                    continue
-                keys.append(k)
+        dfs(0)
+        return visitCount == len(rooms)
             
-        return visitCount == n
+        
+
+
+        
+
+        
+
 
 
         
