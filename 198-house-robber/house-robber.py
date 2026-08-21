@@ -10,13 +10,11 @@ class Solution:
             if memo[i] != None:
                 return memo[i]
             
-            maxValue = 0
-            for j in range(i+2, n):
-                value = rob(j)
-                maxValue = max(value, maxValue)
+            take = nums[i] + rob(i+2)
+            skip = rob(i+1)
             
-            memo[i]= nums[i] + maxValue
-            
+            memo[i]= max(take, skip)
+
             return memo[i]
         
         return max(rob(0), rob(1))
