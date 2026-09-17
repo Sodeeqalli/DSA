@@ -13,7 +13,7 @@ class Solution:
                 return memo[i]
             
             for end in range(i,n):
-                if s[i:end+1] in wordDict:
+                if s[i:end+1] in setDict:
                     if breakWord(end+1):
                         memo[i] = True
                         return True
