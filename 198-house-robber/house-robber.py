@@ -1,23 +1,29 @@
 class Solution:
-    def rob(self, nums: List[int]) -> int:
-        #since adjacent cannot be robbed, we can either rob house 1 or start at house 2 since it can never be negative
+    def rob(self, nums: list[int]) -> int:
+        #the only state is the current house you are in
+        #the decisions you can take is either rob the current house or not. if you rob current house you cant rob the next house, if you do not you might or might not rob the next house
+        #if you go out of bounds we return 0
         n = len(nums)
-        memo = [None]*n
-
-        def rob(i):
+        memo = [None] * n
+        def robHouse(i):
+            #if we pass the last house
             if i >= n:
                 return 0
             if memo[i] != None:
                 return memo[i]
             
-            take = nums[i] + rob(i+2)
-            skip = rob(i+1)
             
-            memo[i]= max(take, skip)
+            withCur = nums[i] + robHouse(i+2)
+            withOutCur = robHouse(i+1)
+        
+            memo[i] =  max(withCur, withOutCur)
 
             return memo[i]
         
-        return max(rob(0), rob(1))
+        return robHouse(0)
 
 
+
+            
+            
         
