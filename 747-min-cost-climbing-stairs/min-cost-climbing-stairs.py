@@ -1,36 +1,21 @@
 class Solution:
     def minCostClimbingStairs(self, cost: list[int]) -> int:
-        #we can start either from index 1 and index 0
-        #so the initial state can be 0 or 1 not fixed (should we run the recursive function twice and find the min)
-        #at every stage we pick 1 or 2, but since we want to return minimun cost, our function should return the min cost of if we take 1 or 2 steps
-        #if we go beyond cost.length, then we return 0, if we are at cost.length we return the cost
-        #welp we cant return 0 that will be the min cost
-        #the problem now is how do we keep account of the costs
-        #i am thinking now that the state is actually cost or like no the function is supposed to return cost
-        
+        #cost  = curCost + min(step+1, step+2)
+        #min cost from the last step is the cost of that step
+        #min cost for the second to last is the the cost of that step and the cost of the last cause it cannot take 2 steps
+
         n = len(cost)
-        memo = [None] * n
-        def climb(i):
-            if i > n:
-                return float("inf")
-            if i == n:
-                return 0
-            if memo[i] != None:
-                return memo[i]
+        minCost = [0] * n
+        minCost[n-1] = cost[n-1]
+        minCost[n-2] = cost[n-2]
 
-            memo[i] = cost[i] + min(climb(i+1), climb(i+2))
-            
-            return memo[i]
-        
-        return min(climb(0), climb(1))
 
-       
-
-            
+        for i in range(n-3, -1, -1):
+            minCost[i] = cost[i] + min(minCost[i+1], minCost[i+2])
 
 
 
 
+        return min(minCost[0], minCost[1])
 
-        
         
