@@ -13,5 +13,5 @@ class Solution:
 
             dp[i] = max(rob, skip)
         
-        return max(dp[0], dp[1])
+        return dp[0]
         
