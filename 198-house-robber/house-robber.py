@@ -1,29 +1,18 @@
 class Solution:
     def rob(self, nums: list[int]) -> int:
-        #the only state is the current house you are in
-        #the decisions you can take is either rob the current house or not. if you rob current house you cant rob the next house, if you do not you might or might not rob the next house
-        #if you go out of bounds we return 0
         n = len(nums)
-        memo = [None] * n
-        def robHouse(i):
-            #if we pass the last house
-            if i >= n:
-                return 0
-            if memo[i] != None:
-                return memo[i]
-            
-            
-            withCur = nums[i] + robHouse(i+2)
-            withOutCur = robHouse(i+1)
+        if n == 1:
+            return nums[0]
+        if n == 2:
+            return max(nums[0], nums[1])
         
-            memo[i] =  max(withCur, withOutCur)
+        maxAmount = [0] * n
+        maxAmount[n-1] = nums[n-1]
+        maxAmount[n-2] = nums[n-2]
+        maxAmount[n-3] = nums[n-3] + nums[n-1]
 
-            return memo[i]
-        
-        return robHouse(0)
+        for i in range(n-4, -1, -1):
+            maxAmount[i] = nums[i] + max( maxAmount[i+2], maxAmount[i+3])
 
-
-
-            
-            
+        return max(maxAmount[0], maxAmount[1])
         
