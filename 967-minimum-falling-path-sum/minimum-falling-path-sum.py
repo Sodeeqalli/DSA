@@ -1,19 +1,23 @@
 class Solution:
     def minFallingPathSum(self, matrix: list[list[int]]) -> int:
-        #this is basically cost of current + min (of next row +1 col+1, next row +1 col-1, next row +1 col)
-        #so we solve later states first bottom up
-
         n = len(matrix)
-        dp = [[float("inf") for _ in range(n+2)] for _ in range(n)]
+        dp = [[0 for _ in range(n+2)] for _ in range(n)]
 
+        for row in dp:
+            row[0] = float("inf")
+            row[-1] = float("inf")
+    
         
-        for col in range(n):
-            dp[n-1][col+1] = matrix[n-1][col]
         
-        for row in range(n-2, -1, -1):
-            for col in range(n):
-                dp[row][col+1] = matrix[row][col] + min(dp[row+1][col], dp[row+1][col+1], dp[row+1][col+2])
+        for j in range(n):
+            dp[n-1][j+1] = matrix[n-1][j]
+        
 
+        for i in range(n-2,-1,-1):
+            for j in range(1, n+1):
+                dp[i][j] = matrix[i][j-1] + min(dp[i+1][j], dp[i+1][j+1], dp[i+1][j-1])
+        
         return min(dp[0])
-            
+
+
         
