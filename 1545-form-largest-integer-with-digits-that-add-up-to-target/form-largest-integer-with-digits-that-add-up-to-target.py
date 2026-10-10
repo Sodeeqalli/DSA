@@ -60,13 +60,6 @@ class Solution:
                 memo[(i,curTarget)] = skip
                 return memo[(i,curTarget)]
             
-
-
-
-
-
-            memo[(i,curTarget)] = str(maxInteger)
-            return memo[(i,curTarget)]
         answer = solve(1,target)
         return "0" if not answer else answer
 
