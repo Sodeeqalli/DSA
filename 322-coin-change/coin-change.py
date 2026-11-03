@@ -1,22 +1,30 @@
 class Solution:
     def coinChange(self, coins: list[int], amount: int) -> int:
-        #this seems similar to the combination problem where i have all states still available after picking one
+        memo = [None] * (amount+1)
 
-        dp = [0] * (amount+1)
-
-        dp[amount] = 0
-
-        for i in range(amount-1, -1, -1):
-            minimum = float("inf")
-
+        def solve(amountLeft):
+            if amountLeft < 0:
+                return float("inf")
+            if amountLeft == 0:
+                return 0
+            if memo[amountLeft] != None:
+                return memo[amountLeft]
+            
+            mini = float("inf")
             for coin in coins:
-                if coin + i <= amount:
-                    minimum = min(1 + dp[coin+i], minimum)
+                numberOfCoins = 1 + solve(amountLeft - coin)
+                mini = min(mini,numberOfCoins)
             
-            dp[i] = minimum
+            memo[amountLeft] = mini
             
-        return dp[0] if dp[0] != float("inf") else -1
-               
-                
-             
+            return memo[amountLeft]
+        
+        answer = solve(amount)
+
+        return -1 if answer == float("inf") else answer
+
+
+        
+
+
         
