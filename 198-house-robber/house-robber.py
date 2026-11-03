@@ -1,29 +1,25 @@
 class Solution:
     def rob(self, nums: list[int]) -> int:
+        #at each decision point, you can either rob or skip
+        #rob will take the value at that point then continue at cur + 2
+        #or we can skip and continue at cur + 1
+
         n = len(nums)
+        twoAhead = nums[-1]
 
-        dp2 = nums[-1]
         if n == 1:
-            return dp2
-        dp1 = max(nums[-2], nums[-1])
-        if n == 2:
-            return dp1
+            return twoAhead
         
+        oneAhead = max(nums[-2], twoAhead)
+
+
         for i in range(n-3, -1, -1):
-            cur = max(nums[i]+dp2, dp1)
+            rob = nums[i] + twoAhead
+            skip = oneAhead
+            curState = max(rob,skip)
 
-            dp2 = dp1
-            dp1 = cur
+            twoAhead = oneAhead
+            oneAhead = curState
 
-        return cur
-
-
-        
-
-
-
-
-
-
-
+        return oneAhead
         
