@@ -48,6 +48,7 @@ class Solution:
         #so we know how to calculate the very last state
 
         nextState = [False] * (sumOfNums+1)
+        nextState[half] = True
         curState = [False] * (sumOfNums+1)
 
         for i in range(len(nums)-1, -1, -1):
@@ -58,7 +59,7 @@ class Solution:
                     curState[j] = True
                 else:
                     skip = nextState[j]
-                    take = nextState[j-nums[i]]
+                    take = False if j - nums[i] < half else nextState[j-nums[i]]
                     curState[j] = skip or take
             nextState = curState[:]
         
